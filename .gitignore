@@ -1,0 +1,5 @@
+.idea
+VOC2007/Annotations/*.xml
+VOC2007/JPEGImages/*.jpg
+VOC2007/SegmentationClass
+VOC2007/SegmentationObject
