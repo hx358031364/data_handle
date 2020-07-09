@@ -9,7 +9,7 @@ import random
 from shutil import copyfile
 
 
-def img_train_test_split(img_source_dir, train_size):
+def img_train_test_split(save_path, img_source_dir, train_size):
     """
     Randomly splits images over a train and validation folder, while preserving the folder structure
 
@@ -80,5 +80,5 @@ def img_train_test_split(img_source_dir, train_size):
 
 if __name__ == '__main__':
     fileDir = "./source_dir"  # 源图片文件夹路径
-    tarDir = './result/'  # 移动到新的文件夹路径
-    img_train_test_split(fileDir,0.9)
+    save_path = ''
+    img_train_test_split(save_path, fileDir, 0.9)
