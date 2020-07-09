@@ -9,7 +9,7 @@ def moveFile(fileDir):
     rate = 0.1  # 自定义抽取图片的比例，比方说100张抽10张，那就是0.1
     picknumber = int(filenumber * rate)  # 按照rate比例从文件夹中取一定数量图片
     sample = random.sample(pathDir, picknumber)  # 随机选取picknumber数量的样本图片
-    print(sample)
+    # print(sample)
     for name in sample:
         shutil.move(fileDir + name, tarDir + name)
     return
