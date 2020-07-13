@@ -1,9 +1,9 @@
 import os
 import random
 
-trainval_percent = 1  # trainval数据集占所有数据的比例
+trainval_percent = 0.9  # trainval数据集占所有数据的比例
 train_percent = 1  # train数据集占trainval数据的比例
-xmlfilepath = 'Annotations'
+xmlfilepath = './Annotations'
 txtsavepath = 'ImageSets/Main'
 total_xml = os.listdir(xmlfilepath)
 
@@ -18,23 +18,23 @@ print('test number is ', num - tv)
 trainval = random.sample(list, tv)
 train = random.sample(trainval, tr)
 
-ftrainval = open('ImageSets/Main/trainval.txt', 'w')
+# ftrainval = open('ImageSets/Main/trainval.txt', 'w')
 ftest = open('ImageSets/Main/test.txt', 'w')
 ftrain = open('ImageSets/Main/train.txt', 'w')
-fval = open('ImageSets/Main/val.txt', 'w')
+# fval = open('ImageSets/Main/val.txt', 'w')
 
 for i in list:
     name = total_xml[i][:-4] + '\n'
     if i in trainval:
-        ftrainval.write(name)
+        # ftrainval.write(name)
         if i in train:
             ftrain.write(name)
-        else:
-            fval.write(name)
+        # else:
+        #     fval.write(name)
     else:
         ftest.write(name)
 
-ftrainval.close()
+# ftrainval.close()
 ftrain.close()
-fval.close()
+# fval.close()
 ftest.close()
