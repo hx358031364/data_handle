@@ -7,7 +7,9 @@ import os
 import pdb
 import xml.etree.ElementTree as ET
 from PIL import Image
-
+'''
+目标框旋转与图片旋转生成对应xml
+'''
 
 class ImgAugemention():
     def __init__(self):
