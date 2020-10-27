@@ -3,9 +3,8 @@ PDF转图片
 '''
 
 import fitz
-import pdfplumber
 import os
-
+from PyPDF2 import PdfFileReader
 
 def PDF_Pic(doc,from_page,to_page):
     Doc=doc[0:-4]
@@ -23,7 +22,14 @@ def PDF_Pic(doc,from_page,to_page):
     return p3
 
 
-pdf_file = './test_file/test.pdf'
-f = pdfplumber.open(pdf_file)
-to_page = len(f.pages)
-PDF_Pic("", 1, to_page)
+listdir = os.listdir('./test_file/')
+if __name__ == '__main__':
+    for pdf_files in listdir:
+        pdf_file = os.path.join('./test_file',pdf_files)
+        reader = PdfFileReader(pdf_file)
+        # 不解密可能会报错：PyPDF2.utils.PdfReadError: File has not been decrypted
+        if reader.isEncrypted:
+            reader.decrypt('')
+        page_num = reader.getNumPages()
+        print(page_num)
+        PDF_Pic(pdf_file, 1, page_num)
