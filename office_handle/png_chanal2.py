@@ -1,5 +1,7 @@
+'''
+png透明图转白色背景
+'''
 import cv2
-
 
 def alpha2white_opencv2(img):
     sp = img.shape
