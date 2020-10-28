@@ -1,4 +1,5 @@
 import PIL.Image as Image
+import os
 '''
 指定图片内像素值区域背景为透明
 '''
@@ -7,7 +8,7 @@ import PIL.Image as Image
 def transparent_back(img):
     img = img.convert('RGBA')
     L, H = img.size
-    color_0 = (255, 255, 0, 255)  # 要替换的颜色
+    color_0 = (255, 255, 250, 255)  # 要替换的颜色
     for h in range(H):
         for l in range(L):
             dot = (l, h)
@@ -19,6 +20,11 @@ def transparent_back(img):
 
 
 if __name__ == '__main__':
-    img = Image.open('D:\\data\\mb\\res\\resize512_0_11.png')
-    img = transparent_back(img)
-    img.save('img2.png')
+    listdir = os.listdir('D:\\data\\mb\\te\\yelo\\')
+    for files in listdir:
+        if files.endswith('.png'):
+            png_file = os.path.join('D:\\data\\mb\\te\\yelo\\', files)
+            img = Image.open(png_file)
+            img = transparent_back(img)
+            name = files[0:-4]
+            img.save('D:\\data\\mb\\res\\{}.png'.format(name))

@@ -8,6 +8,9 @@ import time
 
 logger = logging.getLogger(__name__)
 
+"""
+多线程数据增强
+"""
 
 class DataAugmentation:
 
@@ -99,13 +102,17 @@ class DataAugmentation:
 
     # 图像翻转
     @staticmethod
-    def img_flip(image):
+    def img_flip(image, way=0):
         # 0以X轴为对称轴翻转,>0以Y轴为对称轴翻转, <0X轴Y轴翻转
-        horizontally = cv2.flip(image, 0)  # 水平镜像
-        vertically = cv2.flip(image, 1)  # 垂直镜像
-        hv = cv2.flip(image, -1)  # 水平垂直镜像
-        return horizontally, vertically, hv
-
+        if way == 0:
+            horizontally = cv2.flip(image, 0)  # 水平镜像
+            return horizontally
+        if way == 1:
+            vertically = cv2.flip(image, 1)  # 垂直镜像
+            return vertically
+        if way == -1:
+            hv = cv2.flip(image, -1)  # 水平垂直镜像
+            return hv
     # 图像亮度调节
     @staticmethod
     def img_brightness(image):
@@ -155,7 +162,8 @@ def imageOps(func_name, image, des_path, file_name, times=1):
         DataAugmentation.saveImage(new_image, os.path.join(des_path, func_name + str(_i) + file_name))
 
 
-opsList = {"rotate", "resize_pic", "cut", "shift", "gasuss_noise", "sp_noise", "img_brightness"}
+# opsList = {"rotate", "resize_pic", "cut", "shift", "gasuss_noise", "sp_noise", "img_flip", "img_brightness"}
+opsList = {"sp_noise"}
 
 
 def threadOPS(path, new_path):
@@ -182,7 +190,7 @@ def threadOPS(path, new_path):
         elif tmp_img_name.split('.')[1] != "DS_Store":
             # 读取文件并进行操作
             image = DataAugmentation.openImage(tmp_img_name)
-            threadImage = [0] * 7
+            threadImage = [0] * 8
             _index = 0
             for ops_name in opsList:
                 threadImage[_index] = threading.Thread(target=imageOps,
@@ -193,5 +201,5 @@ def threadOPS(path, new_path):
 
 
 if __name__ == '__main__':
-    threadOPS("./test/",
-              "./result/")
+    threadOPS("./jpg/",
+              "./zaosheng_jpg/")

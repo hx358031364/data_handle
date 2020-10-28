@@ -43,8 +43,16 @@ class DataAugmentation:
         :param image PIL的图像image
         :return: 旋转转之后的图像
         """
-        random_angle = np.random.randint(1, 360)
-        return image.rotate(random_angle, mode)
+        random_angle = np.random.randint(30, 31)
+        # return image.rotate(random_angle, mode)
+        im2 = image.convert('RGBA')
+        rot = im2.rotate(random_angle, mode)
+
+        # 创建一个与旋转图像大小相同的白色图像
+        fff = Image.new('RGBA', rot.size, (255,) * 4)
+        # 使用alpha层的rot作为掩码创建一个复合图像
+        out = Image.composite(rot, fff, rot)
+        return out.convert(image.mode)
 
     @staticmethod
     def randomCrop(image):
@@ -79,14 +87,14 @@ class DataAugmentation:
         return ImageEnhance.Sharpness(contrast_image).enhance(random_factor)  # 调整图像锐度
 
     @staticmethod
-    def randomGaussian(image, mean=0.2, sigma=0.3):
+    def randomGaussian(image, mean=1, sigma=0.5):
         """
          对图像进行高斯噪声处理
         :param image:
         :return:
         """
 
-        def gaussianNoisy(im, mean=0.2, sigma=0.3):
+        def gaussianNoisy(im, mean=1, sigma=0.5):
             """
             对图像做高斯噪音处理
             :param im: 单通道图像
@@ -114,7 +122,6 @@ class DataAugmentation:
     def saveImage(image, path):
         image.save(path)
 
-
 def makeDir(path):
     try:
         if not os.path.exists(path):
@@ -124,17 +131,17 @@ def makeDir(path):
             return 0
         else:
             return 1
-    except Exception, e:
-        print str(e)
+    except Exception as e:
+        print(str(e))
         return -2
 
 
-def imageOps(func_name, image, des_path, file_name, times=2):
+def imageOps(func_name, image, des_path, file_name, times=1):
     funcMap = {
-               "randomRotation": DataAugmentation.randomRotation,
+               # "randomRotation": DataAugmentation.randomRotation
                # "randomCrop": DataAugmentation.randomCrop,
-               # "randomColor": DataAugmentation.randomColor,
-               # "randomGaussian": DataAugmentation.randomGaussian
+               "randomColor": DataAugmentation.randomColor,
+               "randomGaussian": DataAugmentation.randomGaussian
                }
     if funcMap.get(func_name) is None:
         logger.error("%s is not exist", func_name)
@@ -146,7 +153,7 @@ def imageOps(func_name, image, des_path, file_name, times=2):
 
 
 # opsList = {"randomRotation", "randomCrop", "randomColor", "randomGaussian"}
-opsList = {"randomRotation"}
+opsList = {"randomGaussian"}
 
 
 def threadOPS(path, new_path):
@@ -161,13 +168,13 @@ def threadOPS(path, new_path):
     else:
         img_names = [path]
     for img_name in img_names:
-        print img_name
+        print (img_name)
         tmp_img_name = os.path.join(path, img_name)
         if os.path.isdir(tmp_img_name):
             if makeDir(os.path.join(new_path, img_name)) != -1:
                 threadOPS(tmp_img_name, os.path.join(new_path, img_name))
             else:
-                print 'create new dir failure'
+                print('create new dir failure')
                 return -1
                 # os.removedirs(tmp_img_name)
         elif tmp_img_name.split('.')[1] != "DS_Store":
@@ -184,5 +191,5 @@ def threadOPS(path, new_path):
 
 
 if __name__ == '__main__':
-    threadOPS("D:\\data\\clean\\train\\2blood",
-              "D:\\data\\11\\a3")
+    threadOPS("D:\\data\\1",
+              "D:\\data\\1a")

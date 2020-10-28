@@ -87,23 +87,42 @@ def img_flip(image):
 def img_brightness(image):
 
     contrast = 1  # 对比度
-    brightness = 100  # 亮度
-    brightness = np.random.randint(50,100)
+    # contrast = np.random.randint(1, 3)  # 对比度
+    # brightness = 100  # 亮度
+    brightness = np.random.randint(20, 80)
     pic_turn = cv2.addWeighted(image, contrast, image, 0, brightness)   # cv2.addWeighted(对象,对比度,对象,亮度)
     return pic_turn
+
+def warp_affine(img):
+    rows, cols = img.shape[:2]
+    pts1 = np.float32([[50, 50], [200, 50], [50, 200]])
+    pts2 = np.float32([[10, 100], [200, 50], [100, 250]])
+    M = cv2.getAffineTransform(pts1, pts2)
+    # 第三个参数：变换后的图像大小
+    res = cv2.warpAffine(img, M, (rows, cols), borderValue=(0, 255, 255))
+    # res = cv2.warpAffine(img, M, (rows, cols))
+    return res
+    # cv2.imwrite(os.path.join(bright_path, img_name),res)
 
 def batch_augment(img_path, save_path):
     img_names = os.listdir(img_path)
     for img_name in img_names:
-        print(img_name)
+        name = img_name[0:-4]
+        png_name = name+'.png'
         tmp_img_name = os.path.join(img_path, img_name)
         img = cv2.imread(tmp_img_name)
-        sp_noise_img = img_brightness(img)
-        cv2.imwrite(os.path.join(save_path, img_name), sp_noise_img)
+        res = warp_affine(img)
+        cv2.imwrite(os.path.join(save_path, png_name), res)
+        # sp_noise_img = sp_noise(img, 0.01)
+        # cv2.imwrite(os.path.join(save_path, img_name), sp_noise_img)
+        # brightness = img_brightness(img)
+        # bright_path = "./liangdu"
+        # cv2.imwrite(os.path.join(bright_path, img_name), brightness)
+
 
 if __name__ == "__main__":
-    img_path = "D:\\data\\1"
-    save_path = "D:\\data\\1a"
+    img_path = "D:\\data\\mb\\te\\"
+    save_path = "D:\\data\\mb\\res\\"
     batch_augment(img_path, save_path)
 
 
