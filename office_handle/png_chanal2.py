@@ -2,6 +2,7 @@
 png透明图转白色背景
 '''
 import cv2
+import os
 
 def alpha2white_opencv2(img):
     sp = img.shape
@@ -15,12 +16,16 @@ def alpha2white_opencv2(img):
     return img
 
 
+listdir = os.listdir('D:\\data\\hongtou')
+
 if __name__ == '__main__':
-    img = cv2.imread('./test_file/test1.png', -1)
-    img_copy = img.copy()
-    # 注意：这里先copy()再传入函数，直接传入img会将原img直接修改掉
-    whiteback = alpha2white_opencv2(img_copy)
-    # cv2.imshow("after", whiteback)
-    cv2.imwrite("test1_after.jpg",whiteback)
-    # cv2.waitKey(0)
-# haveAlpha.png改成你自己的透明背景图片路径
+    for files in listdir:
+        if files.endswith('.png'):
+            png_file = os.path.join('D:\\data\\hongtou', files)
+            img = cv2.imread(png_file, -1)
+            img_copy = img.copy()
+            # 注意：这里先copy()再传入函数，直接传入img会将原img直接修改掉
+            whiteback = alpha2white_opencv2(img_copy)
+            # cv2.imshow("after", whiteback)
+            cv2.imwrite("{}.jpg".format(png_file[0:-4]),whiteback)
+            # cv2.waitKey(0)

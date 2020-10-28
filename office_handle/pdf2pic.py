@@ -22,10 +22,10 @@ def PDF_Pic(doc,from_page,to_page):
     return p3
 
 
-listdir = os.listdir('./test_file/')
+listdir = os.listdir('D:\\data\\hongtou')
 if __name__ == '__main__':
     for pdf_files in listdir:
-        pdf_file = os.path.join('./test_file',pdf_files)
+        pdf_file = os.path.join('D:\\data\\hongtou',pdf_files)
         reader = PdfFileReader(pdf_file)
         # 不解密可能会报错：PyPDF2.utils.PdfReadError: File has not been decrypted
         if reader.isEncrypted:

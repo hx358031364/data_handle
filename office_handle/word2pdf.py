@@ -22,7 +22,7 @@ def doc2pdf(doc_name, pdf_name):
 if __name__ == '__main__':
     print('Parent process %s.' % os.getpid())
     p = Pool(2)
-    for root, ds, fs in os.walk('D:\\code\\data_handle\\office_handle\\test_file'):  # 网上这步没有写入放入word的路径，就会导致转成功后不知道pdf在哪里，这步很关键。
+    for root, ds, fs in os.walk('D:\\data\\11'):  # 网上这步没有写入放入word的路径，就会导致转成功后不知道pdf在哪里，这步很关键。
         for f in fs:
             fullname = os.path.join(root, f)
             if 'docx' in fullname:
