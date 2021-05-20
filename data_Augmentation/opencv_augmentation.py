@@ -119,13 +119,35 @@ def batch_augment(img_path, save_path):
         # bright_path = "./liangdu"
         # cv2.imwrite(os.path.join(bright_path, img_name), brightness)
 
+def blur_demo(image):
+    """
+    均值模糊：去随机噪声
+    blur只能定义卷积核大小
+    """
+    dst_y = cv2.blur(image, (1, 10))  # Y方向模糊，1X10卷积核
+    dst_x = cv2.blur(image, (10, 1))  # X方向模糊，10X1卷积核
+    dst_xy = cv2.blur(image, (5, 5))  # 块模糊，5X5卷积核
+    cv2.imshow("blurY demo", dst_y)
+    cv2.imshow("blurX demo", dst_x)
+    cv2.imshow("blurXY demo", dst_xy)
+    cv2.imwrite('D:/data/cctv5+/dst_y.png', dst_y)
+    cv2.imwrite('D:/data/cctv5+/dst_x.png', dst_x)
+    cv2.imwrite('D:/data/cctv5+/dst_xy.png', dst_xy)
 
-if __name__ == "__main__":
-    img_path = "D:\\data\\mb\\te\\"
-    save_path = "D:\\data\\mb\\res\\"
-    batch_augment(img_path, save_path)
+# if __name__ == "__main__":
+#     img_path = "D:\\data\\mb\\te\\"
+#     save_path = "D:\\data\\mb\\res\\"
+#     batch_augment(img_path, save_path)
 
+src = cv2.imread('D:/data/cctv5+/src.png',-1)
 
+# blur_demo(src)
+# median_blur_demo(src)
+blur_demo(src)
+#
+# cv2.imshow("src demo", src)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
 
 
 
