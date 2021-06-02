@@ -1,5 +1,6 @@
 '''
 仿射变换
+基于yolov3 源码  https://blog.csdn.net/qq_34795071/article/details/91043795
 '''
 
 import  random
