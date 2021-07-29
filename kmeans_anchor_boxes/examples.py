@@ -5,33 +5,45 @@ import numpy as np
  
 from kmeans import kmeans, avg_iou
  
-ANNOTATIONS_PATH = "/home/huangxin/work/voc2007/Annotations/"
-CLUSTERS = 6
+ANNOTATIONS_PATH = "./labels"
+CLUSTERS = 2
  
  
+# def load_dataset(path):
+#   dataset = []
+#   for xml_file in glob.glob("{}/*xml".format(path)):
+#     tree = ET.parse(xml_file)
+#
+#     height = int(tree.findtext("./size/height"))
+#     width = int(tree.findtext("./size/width"))
+#
+#     for obj in tree.iter("object"):
+#       xmin = int(obj.findtext("bndbox/xmin")) / width
+#       ymin = int(obj.findtext("bndbox/ymin")) / height
+#       xmax = int(obj.findtext("bndbox/xmax")) / width
+#       ymax = int(obj.findtext("bndbox/ymax")) / height
+#
+#       xmin = np.float64(xmin)
+#       ymin = np.float64(ymin)
+#       xmax = np.float64(xmax)
+#       ymax = np.float64(ymax)
+#       if xmax == xmin or ymax == ymin:
+#          print(xml_file)
+#       dataset.append([xmax - xmin, ymax - ymin])
+#   return np.array(dataset)
+
 def load_dataset(path):
-  dataset = []
-  for xml_file in glob.glob("{}/*xml".format(path)):
-    tree = ET.parse(xml_file)
- 
-    height = int(tree.findtext("./size/height"))
-    width = int(tree.findtext("./size/width"))
- 
-    for obj in tree.iter("object"):
-      xmin = int(obj.findtext("bndbox/xmin")) / width
-      ymin = int(obj.findtext("bndbox/ymin")) / height
-      xmax = int(obj.findtext("bndbox/xmax")) / width
-      ymax = int(obj.findtext("bndbox/ymax")) / height
- 
-      xmin = np.float64(xmin)
-      ymin = np.float64(ymin)
-      xmax = np.float64(xmax)
-      ymax = np.float64(ymax)
-      if xmax == xmin or ymax == ymin:
-         print(xml_file)
-      dataset.append([xmax - xmin, ymax - ymin])
-  return np.array(dataset)
- 
+    dataset = []
+    for txt_file in glob.glob("{}/*txt".format(path)):
+        for line in open(txt_file, 'r', encoding='utf-8'):
+            _, _, _, w, h = line.split(' ')
+            w = np.float64(w)
+            h = np.float64(h)
+            if w == h:
+                print(txt_file)
+            dataset.append([w, h])
+    return np.array(dataset)
+
 if __name__ == '__main__':
   #print(__file__)
   data = load_dataset(ANNOTATIONS_PATH)
