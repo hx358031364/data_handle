@@ -52,7 +52,7 @@ if __name__ == '__main__':
   #out= np.array(clusters)/416.0
   print(out)
   print("Accuracy: {:.2f}%".format(avg_iou(data, out) * 100))
-  print("Boxes:\n {}-{}".format(out[:, 0]*512, out[:, 1]*5))
+  print("Boxes:\n {}-{}".format(out[:, 0]*512, out[:, 1]*512))
  
   ratios = np.around(out[:, 0] / out[:, 1], decimals=2).tolist()
   print("Ratios:\n {}".format(sorted(ratios)))
