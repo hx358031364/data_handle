@@ -108,10 +108,11 @@ def batch_augment(img_path, save_path):
     img_names = os.listdir(img_path)
     for img_name in img_names:
         name = img_name[0:-4]
-        png_name = name+'.png'
+        png_name = 'rotate_'+name+'.jpg'
         tmp_img_name = os.path.join(img_path, img_name)
         img = cv2.imread(tmp_img_name)
-        res = warp_affine(img)
+        ang = [90, 180, 270]
+        res = rotate(img, random.choice(ang))
         cv2.imwrite(os.path.join(save_path, png_name), res)
         # sp_noise_img = sp_noise(img, 0.01)
         # cv2.imwrite(os.path.join(save_path, img_name), sp_noise_img)
@@ -134,16 +135,22 @@ def blur_demo(image):
     cv2.imwrite('D:/data/cctv5+/dst_x.png', dst_x)
     cv2.imwrite('D:/data/cctv5+/dst_xy.png', dst_xy)
 
-# if __name__ == "__main__":
-#     img_path = "D:\\data\\mb\\te\\"
-#     save_path = "D:\\data\\mb\\res\\"
-#     batch_augment(img_path, save_path)
 
-src = cv2.imread('D:/data/cctv5+/src.png',-1)
+
+
+
+
+
+if __name__ == "__main__":
+    img_path = r"C:\Users\rmzk\Downloads\data"
+    save_path = r"C:\Users\rmzk\Downloads\data"
+    batch_augment(img_path, save_path)
+
+# src = cv2.imread('D:/data/cctv5+/src.png',-1)
 
 # blur_demo(src)
 # median_blur_demo(src)
-blur_demo(src)
+# blur_demo(src)
 #
 # cv2.imshow("src demo", src)
 # cv2.waitKey(0)

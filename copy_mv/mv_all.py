@@ -1,11 +1,13 @@
 import os
 import shutil
 import tqdm
-
-# 将所有图片移动到一个文件内
 i = 0
-dire = 'D:\\data\\sk_png\\BK_sign'
+# 将所有图片移动到一个文件内
+dire = r'E:\huangxin\logo_jiansuo\logodet_3k\LogoDet-3K'
 for curdir, subdirs, files in os.walk(dire):
-     for file in tqdm.tqdm(files):
-         path=os.path.join(curdir, file)
-         shutil.copyfile(path, 'D:\\data\\tv_source_data\\jpg/{}'.format(file))
+    for file in tqdm.tqdm(files):
+        if file.endswith('xml'):
+            path = os.path.join(curdir, file)
+            shutil.move(path, r'E:\huangxin\logo_jiansuo\logodet_3k\all_xml')
+            # shutil.copy(path,os.path.join(r'D:\data\xiaoyun\xiaoyun_ceshi',str(i)+'.jpg'))
+            # i +=1

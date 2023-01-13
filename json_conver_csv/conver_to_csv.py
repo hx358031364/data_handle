@@ -9,7 +9,8 @@ jsonpath="./jsonfile/"
 for item in filelist:
     content = {''}
     dataset=content
-    txt = open(jsonpath + item,encoding='utf-8')
+    # txt = open(jsonpath + 'predictions.json',encoding='utf-8')
+    txt = open(jsonpath + 'instances_val.json',encoding='utf-8')
     json_txt = json.load(txt)
     label = []
     # print(json_txt['shapes'])

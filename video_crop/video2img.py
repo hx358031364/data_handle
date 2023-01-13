@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import cv2  ##加载OpenCV模块
-
-
+from multiprocessing import Pool
+from tqdm.std import tqdm
 def video2frames(pathIn='',
                  pathOut='',
                  only_output_video_info=False,
@@ -116,7 +116,7 @@ def video2frames(pathIn='',
                 os.mkdir(pathOut)
             except OSError:
                 pass
-            print('Converting a video into frames......')
+            # print('Converting a video into frames......')
             if end_extract_time is not None:
                 N = (end_extract_time - initial_extract_time) / extract_time_interval + 1
                 success = True
@@ -134,36 +134,70 @@ def video2frames(pathIn='',
             else:
                 success = True
                 count = 0
-                while success:
+                while success and count <= dur:
                     cap.set(cv2.CAP_PROP_POS_MSEC, (1000 * initial_extract_time + count * 1000 * extract_time_interval))
                     success, image = cap.read()
                     if success:
                         if not isColor:
                             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-                        print('Write a new frame: {}, {}th'.format(success, count + 1))
+                        # print('Write a new frame: {}, {}th'.format(success, count + 1))
                         cv2.imwrite(os.path.join(pathOut, "{}_{:06d}.jpg".format(output_prefix, count + 1)), image,
                                     [int(cv2.IMWRITE_JPEG_QUALITY), jpg_quality])  # save frame as JPEG file
                         count = count + 1
 
 
 ##### 测试
-pathIn = 'test.mp4'
-video2frames(pathIn, only_output_video_info=True)
+# pathIn = 'http://alimov2.a.kwimgs.com/upic/2020/07/20/06/BMjAyMDA3MjAwNjAxMDBfMjU5ODU0NzI0XzMyNzA2NTEyMzM3XzJfMw==_b_Bdfc4d3bc0ff4e06a3966bdad3c9657cc.mp4'
+# pathIn = r'C:\Users\rmzk\Desktop\video\8197621776384493827.mp4'
+# # listdir = os.listdir(data_path)
+# sava_path = r'C:\Users\rmzk\Desktop\video_crop'
+#
+# video2frames(pathIn, sava_path, extract_time_interval=1)
 
-pathOut = './frames1/'
-video2frames(pathIn, pathOut)
+# pathOut = r'C:\Users\rmzk\Desktop\video_crop'
+# video2frames(r'D:\code\data_handle\gif_handle\taga.gif', pathOut)
+#
+# pathOut = './frames2'
+# video2frames(pathIn, pathOut, extract_time_points=(1, 2, 5))
+#
+# pathOut = './frames3'
+# video2frames(pathIn, pathOut,
+#              initial_extract_time=1,
+#              end_extract_time=3,
+#              extract_time_interval=0.5)
+#
+# pathOut = './frames4/'
+# video2frames(pathIn, pathOut, extract_time_points=(0.3, 2), isColor=False)
+#
+# pathOut = './frames5/'
+# video2frames(pathIn, pathOut, extract_time_points=(0.3, 2), jpg_quality=50)
 
-pathOut = './frames2'
-video2frames(pathIn, pathOut, extract_time_points=(1, 2, 5))
 
-pathOut = './frames3'
-video2frames(pathIn, pathOut,
-             initial_extract_time=1,
-             end_extract_time=3,
-             extract_time_interval=0.5)
+# data_path = r'D:\data\SZK_data\zhuaqu_douyin'
+# listdir = os.listdir(data_path)
+# threads = 1
+#
+# def down_img(path_in):
+#     try:
+#         json_file = open(os.path.join(r'D:\data\SZK_data\zhuaqu_douyin', path_in))
+#         sava_path = os.path.join(r'E:\huangxin\SZK\JC', path_in[:-4])
+#         for i,(line) in tqdm(enumerate(json_file)):
+#             url = line.strip('\n')
+#             output_prefix = path_in[:-4]+'_'+str(i)
+#             video2frames(url, sava_path, output_prefix=output_prefix, extract_time_interval=2)
+#     except Exception as e:
+#         print(e)
+#         print(path_in, line)
+#
+#
+# if __name__ == "__main__":
+#     with Pool(processes=threads) as p:
+#         p.map(down_img, listdir)
 
-pathOut = './frames4/'
-video2frames(pathIn, pathOut, extract_time_points=(0.3, 2), isColor=False)
-
-pathOut = './frames5/'
-video2frames(pathIn, pathOut, extract_time_points=(0.3, 2), jpg_quality=50)
+data_path = r'/mnt/storage/TRAIN_DATA/zhangchao/test_copy/video/加边框/有边框'
+listdir = os.listdir(data_path)
+sava_path = r'/workspace/testcode/yolov5-6.1/video_crop_test/'
+for vi in listdir:
+    name = vi[:-4]
+    path_in = os.path.join(r'/mnt/storage/TRAIN_DATA/zhangchao/test_copy/video/加边框/有边框', vi)
+    video2frames(path_in, sava_path, output_prefix=name, extract_time_interval=2)

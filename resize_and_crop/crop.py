@@ -18,13 +18,13 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 # os.environ['CUDA_VISIBLE_DEVICES'] = "7"
 from tqdm import tqdm
 
-save_path = "/home/huangxin/work/testcode/ImageClassification-PyTorch-master/crop_test_data/12/"
-fileList = os.listdir(r"/home/huangxin/disk2/crop_test_data_not/12/")
+save_path = r"C:\Users\rmzk\Desktop\2"
+fileList = os.listdir(r"C:\Users\rmzk\Desktop\2")
 count = len(fileList)
 # print(fileList)
 for i,file in enumerate(tqdm(fileList)):
     try:
-        im = Image.open("/home/huangxin/disk2/crop_test_data_not/12/{}".format(file))
+        im = Image.open(os.path.join(r'C:\Users\rmzk\Desktop\2',file))
         if im.mode == "P" or "LA":
             im = im.convert('RGB')
         print(im.size)
@@ -35,7 +35,7 @@ for i,file in enumerate(tqdm(fileList)):
             # region_l.save("{}/{}.jpg".format(test_path,i))
 
             region_m = im.crop([((kuan/2)-(gao/2)),0,((kuan/2)+(gao/2)),gao])
-            region_m.save("{}/{}".format(save_path,file))
+            region_m.save("{}/crop_{}".format(save_path,file))
 
             # region_r = im.crop([(kuan-gao),0,kuan,gao])
             # region_r.save("{}/{}.jpg".format(test_path,i+2*count))
@@ -44,7 +44,7 @@ for i,file in enumerate(tqdm(fileList)):
             # region_l.save("{}/{}.jpg".format(test_path,i+3*count))
 
             region_m = im.crop([0,((gao/2)-(kuan/2)),kuan,((gao/2)+(kuan/2))])
-            region_m.save("{}/{}".format(save_path,file))
+            region_m.save("{}/crop_{}".format(save_path,file))
     except:
         print("/home/huangxin/disk2/crop_test_data_not/12/{}".format(file))
         # region_r = im.crop([0,(gao-kuan),kuan,gao])

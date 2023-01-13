@@ -56,8 +56,8 @@ def yolo2coco(arg):
     print("Loading data from ", root_path)
 
     assert os.path.exists(root_path)
-    originLabelsDir = os.path.join(root_path, 'labels')
-    originImagesDir = os.path.join(root_path, 'images')
+    originLabelsDir = os.path.join(root_path, 'labels/train')
+    originImagesDir = os.path.join(root_path, 'images/train')
     with open(os.path.join(root_path, 'classes.txt')) as f:
         classes = f.read().strip().split()
     # images dir name

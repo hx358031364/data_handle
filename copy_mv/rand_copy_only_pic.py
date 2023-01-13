@@ -12,17 +12,18 @@ def cpfile_rand(img, outfile,floder, num):
     for n in numlist:
         filename = list_[n]
         oldpath = os.path.join(img, filename)
-        newpath = os.path.join(outfile,floder, filename)
-        print(newpath)
-        # shutil.copy(oldpath, newpath)
-        shutil.move(oldpath, newpath)
+        # newname = floder+'_'+filename
+        # newpath = os.path.join(outfile, 'guoqi_touxiang_'+filename)
+        # print(newpath)
+        shutil.copy(oldpath, outfile)
+        # shutil.move(oldpath, newpath)
         print('剩余文件：', num - cnt)
         cnt = cnt + 1
     print('==========task OK!==========')
 
 if __name__ == "__main__":
-    file_folders = "/home/huangxin/work/testcode/all_train_data/zhongfu_datasets/train"
-    out_path = "/home/huangxin/work/testcode/all_train_data/zhongfu_datasets/validation"
+    file_folders = r'E:\huangxin\logo_jiansuo\logos_in_the_wild\data_cleaned\voc_format'
+    out_path = r'E:\huangxin\logo_jiansuo\logos_in_the_wild\data_cleaned\single_cls_xml'
     for floder in os.listdir(file_folders):
         file_path = os.path.join(file_folders, floder)
-        cpfile_rand(file_path, out_path, floder, 500)  # 操作目录，输出目录，输出数量
+        cpfile_rand(file_path, out_path, floder, 1)  # 操作目录，输出目录，输出数量

@@ -63,10 +63,10 @@ def create_object_annotation(root, voc_labels):
         ET.SubElement(obj, "truncated").text = str(0)
         ET.SubElement(obj, "difficult").text = str(0)
         bbox = ET.SubElement(obj, "bndbox")
-        ET.SubElement(bbox, "xmin").text = str(voc_label[1])
-        ET.SubElement(bbox, "ymin").text = str(voc_label[2])
-        ET.SubElement(bbox, "xmax").text = str(voc_label[3])
-        ET.SubElement(bbox, "ymax").text = str(voc_label[4])
+        ET.SubElement(bbox, "xmin").text = str(int(voc_label[1]))
+        ET.SubElement(bbox, "ymin").text = str(int(voc_label[2]))
+        ET.SubElement(bbox, "xmax").text = str(int(voc_label[3]))
+        ET.SubElement(bbox, "ymax").text = str(int(voc_label[4]))
     return root
 
 
@@ -125,9 +125,10 @@ def yolo2voc(img_dir, txt_dir, class_txt):
     for filename in txts:
         try:
             read_file(filename, des_d, img_dir, classes_names)
-        except:
+        except Exception as e:
+            print(e)
             print(filename)
 
 
 if __name__ == "__main__":
-    yolo2voc(r'D:\data\logo\shumei\yibiaozhu\img', r'D:\data\logo\shumei\yibiaozhu\txt', r'D:\data\logo\shumei\yibiaozhu\classes.txt')
+    yolo2voc(r'D:\data\logo\shumei\rewrite', r'D:\data\logo\shumei\txt', r'D:\data\logo\shumei\shumei_classes.txt')

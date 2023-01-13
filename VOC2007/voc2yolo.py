@@ -30,10 +30,10 @@ def convert(size, box):
 
 
 def convert_annotation(image_id):
-    img = cv2.imread(os.path.join(r'C:\Users\rmzk\Desktop\yilake\jpg', image_id + '.jpg'))
-    h, w, _ = img.shape
-    in_file = open(r'C:\Users\rmzk\Desktop\yilake/xml/%s.xml' % (image_id))
-    out_file = open(r'/data2/yolov5_logodet/datasets/data_logo_txt/%s.txt' % (image_id), 'w')
+    # img = cv2.imread(os.path.join(r'E:\huangxin\rere_baizohu_2\yiwancheng\new\dubiji\jpg', image_id + '.jpg'))
+    # h, w, _ = img.shape
+    in_file = open(r'E:\huangxin\rere_baizohu_2\yiwancheng\new\gangaotaibi\xml/%s.xml' % (image_id))
+    out_file = open(r'E:\huangxin\rere_baizohu_2\yiwancheng\new\gangaotaibi\txt/%s.txt' % (image_id), 'w')
     tree = ET.parse(in_file)
     root = tree.getroot()
     size = root.find('size')
@@ -43,8 +43,9 @@ def convert_annotation(image_id):
     for obj in root.iter('object'):
         difficult = obj.find('difficult').text
         cls = obj.find('name').text
-        if cls not in classes or int(difficult) == 1:
+        if cls not in classes:
             print(cls)
+            print(image_id)
             continue
         cls_id = classes.index(cls)
         try:
@@ -63,18 +64,18 @@ def convert_annotation(image_id):
             print(e)
             print(image_id)
             in_file.close()
-            shutil.move(
-                os.path.join(r'D:\data\logo\shumei\qingxi\img', image_id + '.jpg'),
-                r'D:\data\logo\shumei\qingxi\error')
-            shutil.move(
-                os.path.join(r'D:\data\logo\shumei\qingxi\xml', image_id + '.xml'),
-                r'D:\data\logo\shumei\qingxi\error')
+            # shutil.move(
+            #     os.path.join(r'D:\data\logo\shumei\qingxi\img', image_id + '.jpg'),:-4
+            #     r'D:\data\logo\shumei\qingxi\error')
+            # shutil.move(
+            #     os.path.join(r'D:\data\logo\shumei\qingxi\xml', image_id + '.xml'),
+            #     r'D:\data\logo\shumei\qingxi\error')
     in_file.close()
     out_file.close()
 
 
 
-jpg_path = r'C:\Users\rmzk\Desktop\yilake\jpg'
+jpg_path = r'E:\huangxin\rere_baizohu_2\yiwancheng\new\gangaotaibi\xml'
 image_ids = os.listdir(jpg_path)
 
 for image in image_ids:

@@ -8,7 +8,7 @@ import os
 def transparent_back(img):
     img = img.convert('RGBA')
     L, H = img.size
-    color_0 = (255, 255, 250, 255)  # 要替换的颜色
+    color_0 = (255, 255, 0, 255)  # 要替换的颜色
     for h in range(H):
         for l in range(L):
             dot = (l, h)
@@ -20,11 +20,11 @@ def transparent_back(img):
 
 
 if __name__ == '__main__':
-    listdir = os.listdir('D:\\data\\mb\\te\\yelo\\')
-    for files in listdir:
-        if files.endswith('.png'):
-            png_file = os.path.join('D:\\data\\mb\\te\\yelo\\', files)
-            img = Image.open(png_file)
+    # listdir = os.listdir('D:\\data\\mb\\te\\yelo\\')
+    # for files in listdir:
+    #     if files.endswith('.png'):
+    #         png_file = os.path.join('D:\\data\\mb\\te\\yelo\\', files)
+            img = Image.open(r'D:\code\data_handle\2.png')
             img = transparent_back(img)
-            name = files[0:-4]
-            img.save('D:\\data\\mb\\res\\{}.png'.format(name))
+            # name = files[0:-4]
+            img.save('3.png')

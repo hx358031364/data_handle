@@ -5,9 +5,9 @@ import cv2
 from collections import Counter
 import shutil
 # jpg对应文件夹
-jpg_path = r'C:\Users\rmzk\Desktop\majiang\jpg'
+jpg_path = r'/mnt/storage/customize_logo/mm2021_openbrands_datasets/open_brand_voc_label_source/annotations'
 # xml文件路径
-path = r'C:\Users\rmzk\Desktop\majiang\xml'
+path = r'/mnt/storage/customize_logo/mm2021_openbrands_datasets/open_brand_voc_label_source/annotations'
 jpgs = os.listdir(jpg_path)
 
 xmls = os.listdir(path)
@@ -17,7 +17,7 @@ if len(jpgs) != len(xmls):
 
 label = []
 
-with open('./label', 'r') as f:
+with open('./unknown_200', 'r') as f:
     names = f.read().split('\n')
 names_list = list(filter(None, names))
 
@@ -53,8 +53,10 @@ for jpg_name in jpgs:  # 遍历文件夹
             # 如果name没在预设标签中，保存错误label名称
             elif now_name_list[0].nodeValue not in names_list:
                 try:
+                    print('not the name')
                     label.append(now_name_list[0].nodeValue)
                 except Exception as e :
+                    print(e)
                     print(jpg_name)
                 xml_bool = True
             # 查看坐标是否有问题
@@ -68,10 +70,11 @@ for jpg_name in jpgs:  # 遍历文件夹
                 xml_bool = True
     try:
         img = cv2.imread(os.path.join(jpg_path, jpg_name))
+        h, w, _ = img.shape
         cv2.resize(img, (640, 640))
     except Exception as e:
-        # print(e)
-        # print(jpg_path)
+        print(e)
+        print(jpg_path)
         img_bool = True
     if img is None:
         img_bool = True
@@ -87,8 +90,8 @@ for jpg_name in jpgs:  # 遍历文件夹
             xml_bool = True
     if img_bool or xml_bool:
         f.close()
-        shutil.move(xml_path, r'C:\Users\rmzk\Desktop\sex_sample\sex_sample\none')
-        shutil.move(os.path.join(jpg_path, jpg_name), r'C:\Users\rmzk\Desktop\sex_sample\sex_sample\none')
+        # shutil.move(xml_path, r'E:\huangxin\rere_baizohu_2\yiwancheng\new\shuzhongzhi\error')
+        # shutil.move(os.path.join(jpg_path, jpg_name), r'E:\huangxin\rere_baizohu_2\yiwancheng\new\shuzhongzhi\error')
 
 print(label)
 
